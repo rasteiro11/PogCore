@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"sync"
+
+	"github.com/rasteiro11/PogCore/pkg/logger"
 )
 
 type (
@@ -140,8 +142,6 @@ func loadSources(sources []Source) []Source {
 		switch s := source.(type) {
 		case LocalSource:
 			if err := s.Load(context.Background()); err != nil {
-				// TODO: refactor to use poglogger
-				fmt.Printf("ERROR: %+v\n", err)
 			}
 		}
 	}

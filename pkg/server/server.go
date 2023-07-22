@@ -1,10 +1,9 @@
 package server
 
 import (
-	"log"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/rasteiro11/PogCore/pkg/logger"
 )
 
 type (
@@ -34,7 +33,7 @@ func (s *server) AddHandler(path, group, method string, handler fiber.Handler, m
 
 	_, ok := s.routes[fullPath+method]
 	if ok {
-		log.Println("[server.AddHandler] there is already a handler for this path")
+		logger.Global().Warnf("[server.AddHandler] there is already a handler for this path")
 		return
 	}
 
@@ -51,7 +50,7 @@ func (s *server) AddHandler(path, group, method string, handler fiber.Handler, m
 
 func (s *server) PrintRouter() {
 	for _, route := range s.routes {
-		log.Printf("[METHOD] %s - [PATH] %s", route.method, route.fullPath)
+		logger.Global().Infof("[METHOD] %s - [PATH] %s", route.method, route.fullPath)
 	}
 }
 

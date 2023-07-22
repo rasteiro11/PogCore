@@ -6,6 +6,8 @@ import (
 	"errors"
 	"os"
 	"strings"
+
+	"github.com/rasteiro11/PogCore/pkg/logger"
 )
 
 type FileSourceOption func(*fileSource)
@@ -50,8 +52,10 @@ func (s *fileSource) Load(ctx context.Context) error {
 
 	file, err := os.Open(s.path)
 	if err != nil {
+		logger.Global().Errorf("[config.Load] os.Open() returned error: %+v\n", err)
 		return err
 	}
+
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
@@ -59,6 +63,7 @@ func (s *fileSource) Load(ctx context.Context) error {
 		pair := strings.SplitN(scanner.Text(), "=", 2)
 
 		if len(pair) != 2 {
+			logger.Global().Errorf("[config.Load] %+v\n", err)
 			return ErrEnvFile
 		}
 

@@ -66,3 +66,7 @@ func NewStatusUnauthorized(c *fiber.Ctx, err error) error {
 func NewStatusNotFound(c *fiber.Ctx, err error) error {
 	return NewResponse(c, http.StatusNotFound, WithBody(err.Error())).JSON(c)
 }
+
+func NewStatusUnprocessableEntity(c *fiber.Ctx, err error) error {
+	return NewResponse(c, http.StatusUnprocessableEntity, WithBody(err.Error())).JSON(c)
+}

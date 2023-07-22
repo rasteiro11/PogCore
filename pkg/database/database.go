@@ -2,8 +2,8 @@ package database
 
 import (
 	"fmt"
+	"github.com/rasteiro11/PogCore/pkg/config"
 	"gorm.io/gorm"
-	"os"
 )
 
 const dnsPattern = "%v:%v@tcp(%v)/%v?charset=utf8&parseTime=True&loc=Local"
@@ -29,10 +29,10 @@ func (d *db) Migrate(entities ...any) error {
 }
 
 func NewDatabase(engine EngineBuilder, opts ...EngineOpt) (Database, error) {
-	user := os.Getenv("DATABASE_USER")
-	password := os.Getenv("DATABASE_PASSWORD")
-	addr := os.Getenv("DATABASE_ADDR")
-	database := os.Getenv("DATABASE")
+	user := config.Instance().RequiredString("DATABASE_USER")
+	password := config.Instance().RequiredString("DATABASE_PASSWORD")
+	addr := config.Instance().RequiredString("DATABASE_ADDR")
+	database := config.Instance().RequiredString("DATABASE")
 
 	dns := fmt.Sprintf(dnsPattern, user, password, addr, database)
 	e, err := engine(dns, opts...)

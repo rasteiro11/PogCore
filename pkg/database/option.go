@@ -1,8 +1,7 @@
 package database
 
 import (
-	"log"
-
+	"github.com/rasteiro11/PogCore/pkg/logger"
 	"gorm.io/gorm"
 )
 
@@ -10,7 +9,7 @@ func WithMaxIdleConns(maxIddleCons int) EngineOpt {
 	return func(d *gorm.DB) {
 		db, err := d.DB()
 		if err != nil {
-			log.Printf("[database.WithMaxIdleConns] d.DB() returned error: %+v\n", err)
+			logger.Global().Errorf("[database.WithMaxIdleConns] d.DB() returned error: %+v\n", err)
 			return
 		}
 
@@ -22,7 +21,7 @@ func WithMaxOpenConns(maxOpenConns int) EngineOpt {
 	return func(d *gorm.DB) {
 		db, err := d.DB()
 		if err != nil {
-			log.Printf("[database.WithMaxOpenConns] d.DB() returned error: %+v\n", err)
+			logger.Global().Errorf("[database.WithMaxOpenConns] d.DB() returned error: %+v\n", err)
 			return
 		}
 

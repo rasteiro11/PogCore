@@ -1,17 +1,17 @@
 package database_test
 
 import (
-	"flashcards/core/database"
-	"log"
 	"testing"
 
+	"github.com/rasteiro11/PogCore/pkg/database"
+	"github.com/rasteiro11/PogCore/pkg/logger"
 	"gorm.io/gorm"
 )
 
 func createDatabase(t *testing.T) database.Database {
 	database, err := database.NewDatabase(database.GetMysqlEngineBuilder)
 	if err != nil {
-		log.Fatalf("[createDatabase] database.NewDatabase() returned error: %+v\n", err)
+		logger.Global().Fatalf("[createDatabase] database.NewDatabase() returned error: %+v\n", err)
 	}
 
 	return database
@@ -46,7 +46,7 @@ func TestTestMigration(t *testing.T) {
 
 	err := database.Migrate(getEntities()...)
 	if err != nil {
-		log.Fatalf("[TestTestMigration] database.Migrate() returned error: %+v\n", err)
+		logger.Global().Fatalf("[TestTestMigration] database.Migrate() returned error: %+v\n", err)
 	}
 }
 
@@ -54,13 +54,13 @@ func dropTables(t *testing.T, db database.Database) {
 	migrator := db.Conn().Migrator()
 	tableNames, err := migrator.GetTables()
 	if err != nil {
-		log.Fatalf("[dropTables] db.Conn.GetTables() returned error: %+v\n", err)
+		logger.Global().Fatalf("[dropTables] db.Conn.GetTables() returned error: %+v\n", err)
 	}
 
 	for _, tableName := range tableNames {
 		err := migrator.DropTable(tableName)
 		if err != nil {
-			log.Fatalf("[dropTables] db.DropTable() returned error: %+v\n", err)
+			logger.Global().Fatalf("[dropTables] db.DropTable() returned error: %+v\n", err)
 		}
 	}
 }

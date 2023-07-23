@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	"sync"
-
-	"github.com/rasteiro11/PogCore/pkg/logger"
 )
 
 type (

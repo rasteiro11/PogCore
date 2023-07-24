@@ -3,6 +3,7 @@ module github.com/rasteiro11/PogCore
 go 1.20
 
 require (
+	github.com/confluentinc/confluent-kafka-go v1.9.2
 	github.com/gofiber/fiber/v2 v2.47.0
 	google.golang.org/grpc v1.56.2
 	gorm.io/driver/mysql v1.5.1

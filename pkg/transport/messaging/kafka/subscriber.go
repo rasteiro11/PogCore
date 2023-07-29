@@ -58,7 +58,7 @@ func (s *subscriber) Close(ctx context.Context) error {
 func NewSubscriber(ctx context.Context, queue string, opts ...SubscriberOption) (messaging.Subscriber, error) {
 	options := newSubscriberOption(opts...)
 
-	provider, err := newProvider(ctx, options)
+	provider, err := newSubscriberProvider(ctx, options)
 	if err != nil {
 		return nil, err
 	}

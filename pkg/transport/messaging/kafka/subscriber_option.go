@@ -20,7 +20,12 @@ type subscriberOptions struct {
 func newSubscriberOption(opts ...SubscriberOption) *subscriberOptions {
 	cfg := &subscriberOptions{
 		decoder: func(b []byte) (any, error) {
-			return b, nil
+			var target any
+			if err := json.Unmarshal(b, &target); err != nil {
+				return nil, err
+			}
+
+			return target, nil
 		},
 		kafkaConfig: &kafka.ConfigMap{},
 	}

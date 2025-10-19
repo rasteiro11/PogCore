@@ -60,7 +60,7 @@ func RunPermanent(ctx context.Context, fn func() error, isRetryable func(error) 
 	}, optFns...)
 }
 
-func RunWithResult[T any](ctx context.Context, fn func() (T, error), isRetryable func(error) bool, optFns ...Option) (*T, error) {
+func RunWithResult[T any](ctx context.Context, fn func(ctx context.Context) (T, error), isRetryable func(error) bool, optFns ...Option) (*T, error) {
 	opts := applyOptions(optFns...)
 	b := newBackoff(ctx, opts)
 
@@ -74,7 +74,7 @@ func RunWithResult[T any](ctx context.Context, fn func() (T, error), isRetryable
 		case <-ctx.Done():
 			return backoff.Permanent(ctx.Err())
 		default:
-			value, err := fn()
+			value, err := fn(ctx)
 			if err != nil {
 				attempts++
 				handleRetryCallback(opts, err, b.NextBackOff())

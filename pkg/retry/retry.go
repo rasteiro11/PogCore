@@ -60,12 +60,12 @@ func RunPermanent(ctx context.Context, fn func() error, isRetryable func(error) 
 	}, optFns...)
 }
 
-func RunWithResult[T any](ctx context.Context, fn func(ctx context.Context) (T, error), isRetryable func(error) bool, optFns ...Option) (*T, error) {
+func RunWithResult[T any](ctx context.Context, fn func(ctx context.Context) (*T, error), isRetryable func(error) bool, optFns ...Option) (*T, error) {
 	opts := applyOptions(optFns...)
 	b := newBackoff(ctx, opts)
 
 	var (
-		result   T
+		result   *T
 		attempts uint64
 	)
 
@@ -94,7 +94,7 @@ func RunWithResult[T any](ctx context.Context, fn func(ctx context.Context) (T, 
 	if err != nil {
 		return nil, err
 	}
-	return &result, nil
+	return result, nil
 }
 
 func applyOptions(optFns ...Option) Options {
